@@ -42,12 +42,12 @@
 			var content = document.getElementById('source').value;
 			var errors = document.getElementById('errors');
 			
-			RAML.Parser.load(content).catch(function (err) {
-				errors.innerHTML = err.message + '<br>line: ' + err.problem_mark.line + '<br>column: ' + err.problem_mark.column;
-				errors.style.color = 'red';
-			}).then(function () {
+			RAML.Parser.load(content).then(function () {
 				errors.innerHTML = 'Everything seems to be ok';
 				errors.style.color = 'green';
+			}).catch(function (err) {
+				errors.innerHTML = err.message + '<br>line: ' + err.problem_mark.line + '<br>column: ' + err.problem_mark.column;
+				errors.style.color = 'red';
 			});
 		});
 	</script>
