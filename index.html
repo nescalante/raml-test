@@ -1,0 +1,51 @@
+<html>
+<head>
+	<title>RAML online test</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+		}
+
+		textarea {
+			font-family: Courier;
+			width: 100%;
+			height: calc(100% - 150px);
+		}
+
+		button {
+			float: right;
+			line-height: 30px;
+			margin: 20px 10px;
+			width: 60px;
+		}
+
+		p {
+			width: calc(100% - 80px);
+			padding: 10px;
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<textarea id="source"></textarea>
+	<button id="reload">Test</button>
+
+	<p id='errors'><p>
+	<script src="raml-parser.min.js"></script>
+	<script>
+		document.getElementById('reload').addEventListener('click', function () {
+			var content = document.getElementById('source').value;
+			RAML.Parser.load(content).catch(function (err) {
+				document.getElementById('errors').innerHTML = err.message + '<br>line: ' + err.problem_mark.line + '<br>column: ' + err.problem_mark.column;
+
+				console.error(err.problem_mark);
+			});
+		});
+	</script>
+</body>
+</html>
+
