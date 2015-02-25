@@ -12,8 +12,10 @@
 
 		textarea {
 			font-family: Courier;
-			width: 100%;
+			width: calc(100% - 10px);
 			height: calc(100% - 150px);
+			margin: 5px;
+			border: 2px solid blue;
 		}
 
 		button {
@@ -26,7 +28,6 @@
 		p {
 			width: calc(100% - 80px);
 			padding: 10px;
-			color: red;
 		}
 	</style>
 </head>
@@ -39,10 +40,14 @@
 	<script>
 		document.getElementById('reload').addEventListener('click', function () {
 			var content = document.getElementById('source').value;
+			var errors = document.getElementById('errors');
+			
 			RAML.Parser.load(content).catch(function (err) {
-				document.getElementById('errors').innerHTML = err.message + '<br>line: ' + err.problem_mark.line + '<br>column: ' + err.problem_mark.column;
-
-				console.error(err.problem_mark);
+				errors.innerHTML = err.message + '<br>line: ' + err.problem_mark.line + '<br>column: ' + err.problem_mark.column;
+				errors.style.color = 'red';
+			}).then(function () {
+				errors.innerHTML = 'Everything seems to be ok';
+				errors.style.color = 'green';
 			});
 		});
 	</script>
